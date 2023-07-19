@@ -7,3 +7,53 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.input-field {
+  display: flex;
+  align-items: center;
+}
+.input-field label {
+  width: 300px;
+}
+
+.details-row {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+.details-row label {
+  width: 300px;
+}
+
+input[type='text'],
+input[type='number'] {
+  /* width: 100%; */
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 10px;
+}
+.btndisabled {
+  background-color: lightgray;
+  color: black;
+}
+.button1 {
+  background-color: #4caf50;
+  cursor: pointer;
+}
+.button2 {
+  background-color: #008cba;
+  cursor: pointer;
+}
