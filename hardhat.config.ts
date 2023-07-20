@@ -13,7 +13,7 @@ dotenv.config();
 
 const INFURA_API_KEY = "269244dc1eee422fa70b94d8b2d584e3";
 
-// Account 3 - 1 - Metamask 
+// Account" 1 - Metamask 
 const SEPOLIA_PRIVATE_KEY = "e75d907474395a60f67a1a09b62c0b780b4ebef6a107e313ce5f70c4475d038e";
 
 const config: HardhatUserConfig = {
