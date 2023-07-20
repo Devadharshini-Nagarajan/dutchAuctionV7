@@ -21,10 +21,10 @@ contract BasicDutchAuction {
     bool private ended;
 
     modifier isAuctionValid() {
-        require(msg.sender != owner, "owner can't bid");
-        require(ended == false, "auction is ended");
-        require(block.number > auctionStartBlock, "auction is not started yet");
-        require(block.number < auctionEndBlock, "auction is ended");
+        require(msg.sender != owner, "Owner can't bid");
+        require(ended == false, "Auction is ended");
+        require(block.number > auctionStartBlock, "Auction is not started yet");
+        require(block.number < auctionEndBlock, "Auction is ended");
         _;
     }
     constructor(uint256 _reservePrice, uint256 _numBlocksAuctionOpen, uint256 _offerPriceDecrement) {
@@ -42,6 +42,7 @@ contract BasicDutchAuction {
     function bid() isAuctionValid() public payable returns(address)  {
         uint256 blockPassed = block.number - auctionStartBlock;
         uint256 currentPrice = initialPrice - (blockPassed * offerPriceDecrement);
+        require(msg.value >= currentPrice, "Bid amount is less than the current price");
         if (msg.value >= currentPrice){
             owner.transfer(msg.value);
             ended = true;

@@ -28,6 +28,7 @@ export function BasicDutchAuction(): ReactElement {
   const [numBlocksAuctionOpen, setNumBlocksAuctionOpen] = useState<string>('');
   const [offerPriceDecrement, setOfferPriceDecrement] = useState<string>('');
   const [currentPrice, setCurrentPrice] = useState<string>('');
+  const [initialPrice, setInitialPrice] = useState<string>('');
   const [winner, setWinner] = useState<string>('');
   const [ownerAddr, setOwnerAddr] = useState<string>('');
 
@@ -57,7 +58,6 @@ export function BasicDutchAuction(): ReactElement {
         AuctionArtifact.bytecode,
         signer
       );
-      console.log('got info');
 
       try {
         const auctionContract = await auction.deploy(
@@ -65,7 +65,6 @@ export function BasicDutchAuction(): ReactElement {
           numBlocksAuctionOpenField,
           ethers.utils.parseEther(offerPriceDecrementField)
         );
-        console.log('deployy');
 
         await auctionContract.deployed();
         let ownerAddr = await auctionContract.owner();
@@ -109,35 +108,41 @@ export function BasicDutchAuction(): ReactElement {
         setNumBlocksAuctionOpen(numBlocksAuctionOpen.toNumber().toString());
 
         const offerPriceDecrement = await auctionContract.offerPriceDecrement();
-        setOfferPriceDecrement(ethers.utils.formatEther(offerPriceDecrement));
-        console.log(offerPriceDecrement, ethers.utils.formatEther(offerPriceDecrement), 'offerPriceDecrement');
+        const formattedOfferPriceDecrement: any =
+          ethers.utils.formatEther(offerPriceDecrement);
+        setOfferPriceDecrement(formattedOfferPriceDecrement);
 
         const initialPrice = await auctionContract.initialPrice();
-        console.log(initialPrice, ethers.utils.formatEther(initialPrice), 'initialPrice');
+        const formattedInitialPrice: any =
+          ethers.utils.formatEther(initialPrice);
+        setInitialPrice(formattedInitialPrice);
 
         const currentBlock = library ? await library.getBlockNumber() : 0;
         const startBlock = await auctionContract.auctionStartBlock();
-        console.log(currentBlock, startBlock.toNumber(), 'Current  start blockkkkk');
 
         const blockPassed = currentBlock - startBlock.toNumber();
-        console.log(blockPassed, 'blockPassed');
 
-        const currentPrice = initialPrice - blockPassed * offerPriceDecrement;
-        console.log(
-          currentPrice,
-          initialPrice,
-          blockPassed,
-          offerPriceDecrement,
-          blockPassed * offerPriceDecrement,
-          'currentPrice calcc'
-        );
+        const currentPrice: any =
+          parseFloat(formattedInitialPrice) -
+          blockPassed * parseFloat(formattedOfferPriceDecrement);
         setCurrentPrice(currentPrice.toString());
 
+        console.log(
+          'formattedInitialPrice - ',
+          formattedInitialPrice,
+          'currentBlock - ',
+          currentBlock,
+          'startBlock -',
+          startBlock.toNumber(),
+          'blockPassed - ',
+          blockPassed,
+          'currentPrice - ',
+          currentPrice
+        );
+
         const winner = await auctionContract.winner();
-        console.log(winner, 'winner');
         setWinner(winner ? winner : 'winner not decided');
       } catch (error: any) {
-        console.log('in catchh');
         window.alert(
           'Error!' + (error && error.message ? `\n\n${error.message}` : '')
         );
@@ -153,7 +158,7 @@ export function BasicDutchAuction(): ReactElement {
     }
 
     if (!bidField) {
-      window.alert('Address cannot be empty');
+      window.alert('Bid amount cannot be empty');
       return;
     }
 
@@ -164,10 +169,14 @@ export function BasicDutchAuction(): ReactElement {
         });
 
         await bidxn.wait();
-        console.log(bidxn);
+        setBidResult('Successfully placed bid');
+        window.alert(`Successfully placed bid of ${bidField}`);
       } catch (error: any) {
         window.alert(
           'Error!' + (error && error.message ? `\n\n${error.message}` : '')
+        );
+        setBidResult(
+          `Bid failed! ${error && error.data.message ? error.data.message : ''}`
         );
       }
     }
@@ -265,6 +274,11 @@ export function BasicDutchAuction(): ReactElement {
             <div className="details-row">
               <label>Offer Price Decrement:</label>
               <span>{offerPriceDecrement}</span>
+            </div>
+            <br />
+            <div className="details-row">
+              <label>Initial Price:</label>
+              <span>{initialPrice}</span>
             </div>
             <br />
             <div className="details-row">
