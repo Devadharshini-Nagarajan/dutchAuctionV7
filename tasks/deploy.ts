@@ -2,13 +2,14 @@ import '@nomiclabs/hardhat-waffle';
 import { task } from 'hardhat/config';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-task('deploy', 'Deploy Greeter contract').setAction(
+task('deploy', 'Deploy Basic Dutch Auction contract').setAction(
   async (_, hre: HardhatRuntimeEnvironment): Promise<void> => {
-    const Greeter = await hre.ethers.getContractFactory('Greeter');
-    const greeter = await Greeter.deploy('Hello, Hardhat!');
 
-    await greeter.deployed();
+    const BasicDutchAuction = await hre.ethers.getContractFactory('BasicDutchAuction');
+    const basicDutchAuction = await BasicDutchAuction.deploy(50,10,0.1);
 
-    console.log('Greeter deployed to:', greeter.address);
+    await basicDutchAuction.deployed();
+
+    console.log('BasicDutchAuction deployed to:', basicDutchAuction.address);
   }
 );
