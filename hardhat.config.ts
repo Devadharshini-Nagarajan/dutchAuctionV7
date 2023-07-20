@@ -14,7 +14,7 @@ dotenv.config();
 const INFURA_API_KEY = "269244dc1eee422fa70b94d8b2d584e3";
 
 // Account 3 - 1 - Metamask 
-const GOERLI_PRIVATE_KEY = "59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
+const SEPOLIA_PRIVATE_KEY = "e75d907474395a60f67a1a09b62c0b780b4ebef6a107e313ce5f70c4475d038e";
 
 const config: HardhatUserConfig = {
   solidity: '0.8.4',
@@ -30,11 +30,11 @@ const config: HardhatUserConfig = {
     },
     goerli: {
       url: `https://goerli.infura.io/v3/${INFURA_API_KEY}`,
-      accounts: [`${GOERLI_PRIVATE_KEY}`]
+      accounts: [`${SEPOLIA_PRIVATE_KEY}`]
     },
     sepolia: {
       url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
-      accounts: [`${GOERLI_PRIVATE_KEY}`]
+      accounts: [`${SEPOLIA_PRIVATE_KEY}`]
     }
     // ropsten: {
     //   url: process.env.ROPSTEN_URL || '',
