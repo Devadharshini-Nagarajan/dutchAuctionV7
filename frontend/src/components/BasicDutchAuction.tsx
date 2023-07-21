@@ -176,7 +176,9 @@ export function BasicDutchAuction(): ReactElement {
           'Error!' + (error && error.message ? `\n\n${error.message}` : '')
         );
         setBidResult(
-          `Bid failed! ${error && error.data.message ? error.data.message : ''}`
+          `Bid failed! ${
+            error && error.data?.message ? error.data?.message : ''
+          } - ${error && error.message ? `\n\n${error.message}` : ''})`
         );
       }
     }
